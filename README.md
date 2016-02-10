@@ -1,5 +1,6 @@
 # package-jetbrains-ide
 Creates .deb packages for Jetbrains IDEs (e.g. PyCharm, Intelli IDEA) for Debian/Ubuntu
+
 This project is a further development of [pycharm-dpkg](https://github.com/baderas/pycharm-dpkg) and [intellij-idea-dpkg](https://github.com/trygvis/intellij-idea-dpkg).
 
 # Supported IDEs
@@ -19,17 +20,17 @@ This project is a further development of [pycharm-dpkg](https://github.com/bader
 
 # Options
 * `-h, --help`
-   show this help message and exit
+   Show this help message and exit
 * `-e EDITION, --edition EDITION`
-   Which Edition should be packaged?
+   Which edition should be packaged?
 * `-i IDE, --ide IDE`
    Which IDE should be packaged?
 * `-l, --list`
-   list all supported IDEs
+   List all supported IDEs
 * `-c, --check`
-   check if installed version is older than the newest version available (needs dpkg)
+   Check if installed version is older than the newest version available (needs dpkg)
 * `-v, --version`
-   show program's version number and exit
+   Show program's version number and exit
 
 
 # Usage
@@ -58,13 +59,13 @@ for ide in "idea" "pycharm"; do
         if [ $ret -eq 0 ]; then
             sudo $dpkg_cmd
             if [ $? -ne 0 ]; then
-                echo "An error occured while installing $ide with $dpkg_cmd"
+                echo "An error occurred while installing $ide with $dpkg_cmd"
             fi
         else
-            echo "An error occured while  packaging $ide"
+            echo "An error occurred while  packaging $ide"
         fi
     elif [ $ret -eq -1 ]; then
-        echo "An error occured while executing $folder/package-jetbrains-ide/package.py"
+        echo "An error occurred while executing $folder/package-jetbrains-ide/package.py"
     fi
     rm -r $folder
 done
@@ -74,9 +75,9 @@ done
 # Contribution / Bugs
 Other IDEs can easily be added, just look into data/* and add necessary files accordingly. Add the IDE to `supportedIDEs` in package.py afterward.
 
-If you find a bug, please file a bug on GitHub: http://github.com/baderas/pycharm-dpkg/issues
+If you find a bug, please file a bug on GitHub: http://github.com/package-jetbrains-ide/pycharm-dpkg/issues
 
-If you want to contribute, please add a pull request on GitHub: http://github.com/baderas/pycharm-dpkg/pulls
+If you want to contribute, please add a pull request on GitHub: http://github.com/package-jetbrains-ide/pycharm-dpkg/pulls
 
 # Credits
 The project, idea, and many files are based on trygvis's [intellij-idea-dpkg](https://github.com/trygvis/intellij-idea-dpkg).
