@@ -75,9 +75,9 @@ done
 # Contribution / Bugs
 Other IDEs can easily be added, just look into data/* and add necessary files accordingly. Add the IDE to `supportedIDEs` in package.py afterward.
 
-If you find a bug, please file a bug on GitHub: http://github.com/package-jetbrains-ide/issues
+If you find a bug, please file a bug on GitHub: http://github.com/baderas/package-jetbrains-ide/issues
 
-If you want to contribute, please add a pull request on GitHub: http://github.com/package-jetbrains-ide/pulls
+If you want to contribute, please add a pull request on GitHub: http://github.com/baderas/package-jetbrains-ide/pulls
 
 # Credits
 The project, idea, and many files are based on trygvis's [intellij-idea-dpkg](https://github.com/trygvis/intellij-idea-dpkg).
