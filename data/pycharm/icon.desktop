@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=PyCharm
+Comment=The Most Intelligent Python IDE
+Exec=/usr/bin/pycharm
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=/usr/share/jetbrains/pycharm/bin/pycharm.png
+Categories=Development;IDE;Debugger;Profiling

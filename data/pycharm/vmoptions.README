@@ -1,0 +1,3 @@
+If you want a custom pycharm.vmoptions create a file called
+/etc/pycharm/pycharm.vmoptions and /usr/bin/pycharm will set
+$PYCHARM_VM_OPTIONS to /etc/pycharm/pycharm.vmoptions

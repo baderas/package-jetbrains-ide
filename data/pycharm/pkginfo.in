@@ -1,0 +1,7 @@
+NAME=pycharm - PyCharm
+PKG=pycharm
+VERSION=@VERSION@
+EMAIL=Development@Geekparadise.de
+ARCH=i386
+CATEGORY=application
+
