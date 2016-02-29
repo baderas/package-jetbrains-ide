@@ -3,6 +3,8 @@
 
 import logging
 import argparse
+from urllib.error import URLError
+
 import util
 import sys
 import os
@@ -18,7 +20,7 @@ newVersionURL = "https://data.services.jetbrains.com/products/releases?code=%s&l
 # format: key = name
 #         list of [VersionVarNamesDict, VersionRegex]
 #         VersionRegex greps the regex out of version.js
-supportedIDEs = {"pycharm": [{"community": "PCC", "professional" : "PCP"},
+supportedIDEs = {"pycharm": [{"community": "PCC", "professional": "PCP"},
                              "[0-9]+\.[0-9]+\.[0-9]+"],
                  "idea":    [{"community": "IIC", "professional": "IIU"},
                              "[0-9]+\.[0-9]+\.[0-9]+"]
@@ -33,22 +35,23 @@ def cleanup(code, log):
             sys.exit(-1)
     sys.exit(code)
 
+
 def get_download_link(varnames, edition, log):
     varname = varnames[edition]
     try:
         response = urllib.request.urlopen(newVersionURL % varname, timeout=10)
-    except:
+    except URLError:
         log.error("Error while opening %s. Error was '%s'." % (newVersionURL % varname, sys.exc_info()[0]))
         return None
     try:
         content = response.read().decode('utf-8')
-    except:
+    except UnicodeDecodeError:
         log.error("Error while retrieving %s. Error was '%s'." % (newVersionURL % varname, sys.exc_info()[0]))
         return None
     if response is not None and response.status == 200:
         try:
             parsedjson = json.loads(content)
-        except:
+        except ValueError:
             log.error("Error while parsing json from %s. Error was '%s'." %
                       (newVersionURL % varname, sys.exc_info()[0]))
             return None
@@ -115,8 +118,8 @@ if version is None:
     sys.exit(-1)
 
 if args.check:
-    result = util.run_cmd("dpkg -l | grep '%s' | grep -E -o '%s'" %
-                          (args.ide, supportedIDEs[args.ide][1]), logger, True).decode('utf-8').replace("\n", "")
+    result = util.run_cmd("dpkg -l | grep '%s' | grep -E -o '%s' | cat" %
+                          (args.ide, supportedIDEs[args.ide][1]), logger, True, True).decode('utf-8').replace("\n", "")
     if result is None:
         logger.error("Error while running '%s'." % "dpkg -l | grep '%s' | grep -E -o '%s'" %
                      (args.ide, supportedIDEs[args.ide][1]))
