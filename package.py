@@ -124,9 +124,11 @@ if args.check:
         logger.error("Error while running '%s'." % "dpkg -l | grep '%s' | grep -E -o '%s'" %
                      (args.ide, supportedIDEs[args.ide][1]))
         sys.exit(-1)
-    if result != version.group():
+    if result != version.group() and result != "":
         print("There is a newer version (%s) than installed (%s) available!" % (version.group(), result))
         sys.exit(1)
+    if result == "":
+        print("%s %s is not installed." % (args.ide, args.edition))
     sys.exit(0)
 
 # Checking folders

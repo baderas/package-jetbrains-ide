@@ -15,6 +15,10 @@ This project is a further development of [pycharm-dpkg](https://github.com/bader
 * Community
 * Professional
 
+# Required Packages
+* python3
+* python3-urllib3
+
 # Synopsis
 `./package.py [-h] [-e EDITION] [-i IDE] [-l] [-c] [-v]`
 
