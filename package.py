@@ -21,9 +21,9 @@ newVersionURL = "https://data.services.jetbrains.com/products/releases?code=%s&l
 #         list of [VersionVarNamesDict, VersionRegex]
 #         VersionRegex greps the regex out of version.js
 supportedIDEs = {"pycharm": [{"community": "PCC", "professional": "PCP"},
-                             "[0-9]+\.[0-9]+\.[0-9]+"],
+                             "[0-9]+\.[0-9]+(\.[0-9]+){0,1}"],
                  "idea":    [{"community": "IIC", "professional": "IIU"},
-                             "[0-9]+\.[0-9]+\.[0-9]+"]
+                             "[0-9]+\.[0-9]+(\.[0-9]+){0,1}"]
                  }
 supportedEditions = ['community', 'professional']
 
