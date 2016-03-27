@@ -1,4 +1,9 @@
 #!/bin/bash
 
+. /usr/share/debconf/confmodule
+
 echo "Reloading sysctl settings for inotify settings."
 invoke-rc.d procps start
+
+db_input high idea-EDITION/java_hint || true
+db_go

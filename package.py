@@ -203,19 +203,10 @@ copyList = [[os.path.join(util.get_script_path(), "data", args.ide, "start.sh"),
              os.path.join(util.get_script_path(), "tmp", "root", "etc", args.ide, "%s.vmoptions.README" % args.ide)],
             [os.path.join(util.get_script_path(), "data", args.ide, "debian", "sysctl-99.conf"),
              os.path.join(util.get_script_path(), "tmp", "root", "etc", "sysctl.d", "99-%s.conf" % args.ide)],
-            [os.path.join(util.get_script_path(), "data", args.ide, "debian", "postinst"),
-             os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "postinst")]]
+            ]
 
 for copyTuple in copyList:
     if not util.copy_file(copyTuple[0], copyTuple[1], logger):
-        cleanup(-1, logger)
-
-# Chmod Start Skript and sysctl
-for file in [os.path.join(util.get_script_path(), "tmp", "root", "usr", "bin", args.ide),
-             os.path.join(util.get_script_path(), "tmp", "root", "etc", "sysctl.d", "99-%s.conf" % args.ide),
-             os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "postinst")]:
-    if not util.run_cmd("chmod +rx %s" % file, logger, False):
-        logger.error("Error while running chmod +rx on '%s'." % file)
         cleanup(-1, logger)
 
 # Fixing vmoptions file(s)
@@ -261,33 +252,51 @@ if not util.delete_file(os.path.join(util.get_script_path(),
                                                              "bin", "%s.vmoptions2" % args.ide))
     cleanup(-1, logger)
 
-# Control.in
-if util.check_file_exists(os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "control.in")):
-    if not util.delete_file(os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "control"), logger, False):
-        cleanup(-1, logger)
+# Copy files that needed fixes (inserts ide name etc.)
+copyList = [[os.path.join(util.get_script_path(), "data", args.ide, "debian", "postinst"),
+             os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "postinst")],
+            [os.path.join(util.get_script_path(), "data", args.ide, "debian", "templates"),
+             os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "templates")],
+            [os.path.join(util.get_script_path(), "data", args.ide, "debian", "control.in"),
+             os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "control")]
+            ]
 
-file1 = open(os.path.join(util.get_script_path(), "data", args.ide, "debian", "control.in"), "r")
-file2 = open(os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "control"), "w")
-otherEdition = 'community'
-oldEdition = 'iu'
-otherOldEdition = 'ic'
-if args.edition == otherEdition:
-    otherEdition = 'professional'
-    oldEdition = "ic"
-    otherOldEdition = 'iu'
-for line in file1:
-    file2.write(
-        line.replace("OTHER_EDITION2", otherEdition.upper())
-            .replace("OTHER_EDITION", otherEdition)
-            .replace("VERSION", version.group())
-            .replace("EDITION2", args.edition.upper())
-            .replace("EDITION", args.edition)
-            .replace("OLD1", oldEdition)
-            .replace("OLD2", oldEdition.upper())
-            .replace("OLD3", otherOldEdition)
-            .replace("OLD4", otherOldEdition.upper()))
-file1.close()
-file2.close()
+for copyTuple in copyList:
+    # Check is destination exists
+    if util.check_file_exists(copyTuple[1]):
+        if not util.delete_file(copyTuple[1], logger, False):
+            cleanup(-1, logger)
+
+    file1 = open(copyTuple[0], "r")
+    file2 = open(copyTuple[1], "w")
+    otherEdition = 'community'
+    oldEdition = 'iu'
+    otherOldEdition = 'ic'
+    if args.edition == otherEdition:
+        otherEdition = 'professional'
+        oldEdition = "ic"
+        otherOldEdition = 'iu'
+    for line in file1:
+        file2.write(
+            line.replace("OTHER_EDITION2", otherEdition.upper())
+                .replace("OTHER_EDITION", otherEdition)
+                .replace("VERSION", version.group())
+                .replace("EDITION2", args.edition.upper())
+                .replace("EDITION", args.edition)
+                .replace("OLD1", oldEdition)
+                .replace("OLD2", oldEdition.upper())
+                .replace("OLD3", otherOldEdition)
+                .replace("OLD4", otherOldEdition.upper()))
+    file1.close()
+    file2.close()
+
+# Chmod Start Skript and sysctl
+for file in [os.path.join(util.get_script_path(), "tmp", "root", "usr", "bin", args.ide),
+             os.path.join(util.get_script_path(), "tmp", "root", "etc", "sysctl.d", "99-%s.conf" % args.ide),
+             os.path.join(util.get_script_path(), "tmp", "root", "DEBIAN", "postinst")]:
+    if not util.run_cmd("chmod +rx %s" % file, logger, False):
+        logger.error("Error while running chmod +rx on '%s'." % file)
+        cleanup(-1, logger)
 
 if util.check_file_exists(os.path.join(util.get_script_path(), "tmp", "fakeroot.save")):
     if not util.delete_file(os.path.join(util.get_script_path(), "tmp", "fakeroot.save"), logger, False):

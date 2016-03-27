@@ -1,0 +1,11 @@
+Template: pycharm-EDITION/java_hint
+Type: note
+Description: Since version 2016.1, pycharm ships its own JRE which sometimes causes problems with font rendering.
+ If such problems occur, please configure pycharm to use the JRE that is installed on your system by adding it to ~/.PyCharm2016.1/config/pycharm.jdk. Please remember that Java version 8 or greater is required.
+ .
+ Example for OpenJDK 8 x64: 'echo "/usr/lib/jvm/java-8-openjdk-amd64" > ~/.PyCharm2016.1/config/pycharm.jdk'
+Description-de.UTF-8: Seit Version 2016.1 bringt pycharm seine eigene JRE mit. Diese kann Probleme bei der Darstellung der Schriften bereiten. 
+ Falls solche Probleme auftreten, sollte pycharm durch einen Eintrag in ~/.PyCharm2016.1/config/pycharm.jdk dazu gebracht werden, die im System installierte JRE zu verwenden. Bitte beachten sie, dass Java in der Version 8 oder höher benötigt wird.
+ .
+ Beispiel für OpenJDK 8 x64: 'echo "/usr/lib/jvm/java-8-openjdk-amd64" > ~/.PyCharm2016.1/config/pycharm.jdk'
+ 

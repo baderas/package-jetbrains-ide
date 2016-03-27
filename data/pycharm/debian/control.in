@@ -3,7 +3,7 @@ Section: devel
 Version: VERSION
 Maintainer: Andreas Bader <Development@Geekparadise.de>
 Architecture: all
-Depends: openjdk-7-jre | sun-java6-jre | openjdk-6-jre | openjdk-7-jdk | sun-java6-jdk | openjdk-6-jdk | ibm-j2sdk1.7, python | python3
+Depends: openjdk-8-jre |openjdk-7-jre | sun-java6-jre | openjdk-6-jre | openjdk-7-jdk | sun-java6-jdk | openjdk-6-jdk | ibm-j2sdk1.7, python | python3, debconf
 Conflicts: pycharm-OTHER_EDITION, pycharm-OTHER_EDITION2, pycharm-EDITION2
 Description: The Most Intelligent Python IDE
 
