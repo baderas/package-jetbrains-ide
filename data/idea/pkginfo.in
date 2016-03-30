@@ -1,7 +1,7 @@
 NAME=intellij-idea - Intellij IDEA
 PKG=intellij-idea
 VERSION=@VERSION@
-EMAIL=trygvis@inamo.no
+EMAIL=Development@Geekparadise.de
 ARCH=i386
 CATEGORY=application
 
