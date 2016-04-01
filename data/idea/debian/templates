@@ -1,11 +1,11 @@
 Template: idea-EDITION/java_hint
 Type: note
-Description: Since version 2016.1, idea ships its own JRE which sometimes causes problems with font rendering.
+Description: Since version 2016.1, Idea ships its own JRE which sometimes causes problems with font rendering.
  If such problems occur, please configure idea to use the JRE that is installed on your system by adding it to ~/.IdeaIC*/config/idea.jdk. Please remember that Java version 8 or greater is required.
  .
  Example for OpenJDK 8 x64: 'echo "/usr/lib/jvm/java-8-openjdk-amd64" > ~/.IdeaIC*/config/idea.jdk'
-Description-de.UTF-8: Seit Version 2016.1 bringt idea seine eigene JRE mit, welche Probleme bei der Darstellung der Schriften bereiten kann. 
+Description-de.UTF-8: Seit Version 2016.1 bringt Idea seine eigene JRE mit, welche Probleme bei der Darstellung der Schriften bereiten kann. 
  Falls solche Probleme auftreten, sollte idea durch einen Eintrag in ~/.IdeaIC*/config/idea.jdk dazu gebracht werden, die im System installierte JRE zu verwenden. Bitte beachten sie, dass Java in der Version 8 oder höher benötigt wird.
  .
- Beispiel für OpenJDK 8 x64: 'echo "/usr/lib/jvm/java-8-openjdk-amd64" > ~/.IdeaIC*/config/idea.jdk'
+ Beispiel für OpenJDK 8 x64: 'for folder in ~/.IdeaIC*; do echo "/usr/lib/jvm/java-8-openjdk-amd64" > $folder/config/idea.jdk; done'
  
