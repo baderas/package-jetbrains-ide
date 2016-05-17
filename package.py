@@ -13,7 +13,7 @@ import re
 import json
 
 __author__ = 'Andreas Bader'
-__version__ = '0.01'
+__version__ = '0.02'
 
 newVersionURL = "https://data.services.jetbrains.com/products/releases?code=%s&latest=true&type=release"
 
@@ -180,7 +180,7 @@ if util.check_file_exists(os.path.join(util.get_script_path(), "tmp", link.split
     if not util.delete_file(os.path.join(util.get_script_path(), "tmp", link.split("/")[-1]), logger, False):
         cleanup(-1, logger)
 
-resp = urllib.request.urlretrieve(link, os.path.join(util.get_script_path(), "tmp", link.split("/")[-1]))
+resp = urllib.request.urlretrieve(link, os.path.join(util.get_script_path(), "tmp", link.split("/")[-1]), util.progress_hook)
 if resp is None or resp[1]["Connection"] != "close" or int(resp[1]["Content-Length"]) < 100000:
     logger.error("Error while downloading '%s'." % os.path.join(util.get_script_path(), "tmp", link.split("/")[-1]))
     cleanup(-1, logger)
