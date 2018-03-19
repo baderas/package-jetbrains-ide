@@ -36,7 +36,7 @@ def cleanup(code, log):
     sys.exit(code)
 
 
-def get_download_link(varnames, edition, log):
+def get_download_link(varnames, edition, log, embeddedJava):
     varname = varnames[edition]
     try:
         response = urllib.request.urlopen(newVersionURL % varname, timeout=10)
@@ -55,16 +55,20 @@ def get_download_link(varnames, edition, log):
             log.error("Error while parsing json from %s. Error was '%s'." %
                       (newVersionURL % varname, sys.exc_info()[0]))
             return None
+        linuxKey = 'linux'
+        if not embeddedJava:
+            linuxKey = 'linuxWithoutJDK'
+
         if varname in parsedjson.keys():
             if len(parsedjson[varname]) > 0:
                 if "downloads" in parsedjson[varname][0].keys():
-                    if "linux" in parsedjson[varname][0]["downloads"].keys():
-                        if "link" in parsedjson[varname][0]["downloads"]["linux"].keys():
-                            return parsedjson[varname][0]["downloads"]["linux"]["link"]
+                    if linuxKey in parsedjson[varname][0]["downloads"].keys():
+                        if "link" in parsedjson[varname][0]["downloads"][linuxKey].keys():
+                            return parsedjson[varname][0]["downloads"][linuxKey]["link"]
                         else:
                             log.error("Error while parsing '%s': No 'link' in dictionary." % newVersionURL % varname)
                     else:
-                        log.error("Error while parsing '%s': No 'linux' in dictionary." % newVersionURL % varname)
+                        log.error("Error while parsing '%s': No '%' in dictionary." % newVersionURL % varname, linuxKey)
                 else:
                     log.error("Error while parsing '%s': No 'downloads' in dictionary." % newVersionURL % varname)
             else:
@@ -81,6 +85,8 @@ parser = argparse.ArgumentParser(prog="package.py", epilog="Supported IDEs: %s\n
 parser.add_argument("-e", "--edition", metavar="EDITION", default=supportedEditions[0],
                     choices=supportedEditions, help="Which Edition should be packaged?")
 parser.add_argument("-i", "--ide", metavar="IDE", choices=supportedIDEs.keys(), default=list(supportedIDEs.keys())[0],
+                    help="Which IDE should be packaged?")
+parser.add_argument("-j", "--java", metavar="JAVA", choices={'y','n'}, default='y',
                     help="Which IDE should be packaged?")
 parser.add_argument("-l", "--list", action='store_true', help="list all supported IDEs")
 parser.add_argument("-c", "--check", action='store_true',
@@ -106,7 +112,7 @@ for tool in ["tar", "dpkg", "fakeroot", "dpkg-deb"]:
         sys.exit(-1)
 
 # Get URL
-link = get_download_link(supportedIDEs[args.ide][0], args.edition, logger)
+link = get_download_link(supportedIDEs[args.ide][0], args.edition, logger, args.java!='n')
 
 if link is None:
     logger.error("Could not get url for %s." % args.ide)
